@@ -26,10 +26,10 @@ jobs:
 
       - name: Pull image from ACR
         run: |
-          docker pull containerdeploytrial.azurecr.io/practical_docker_deploy-frontend:latest
+          docker pull containerdeploytrial.azurecr.io/practical_docker_deploy-frontend:v1
 
       - name: Deploy to App Service
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ secrets.APP_SERVICE_FRONTEND }}
-          images: containerdeploytrial.azurecr.io/practical_docker_deploy-frontend:latest
+          images: containerdeploytrial.azurecr.io/practical_docker_deploy-frontend:v1
