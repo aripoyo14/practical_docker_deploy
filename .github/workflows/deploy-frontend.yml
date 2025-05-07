@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'frontend/**'
 
 jobs:
   build-and-deploy:
@@ -18,15 +20,10 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Log in to ACR
-        run: |
-          echo "${{ secrets.AZURE_CREDENTIALS }}" > sp.json
-          az login --service-principal -u $(jq -r .clientId sp.json) \
-                   -p $(jq -r .clientSecret sp.json) --tenant $(jq -r .tenantId sp.json)
-          az acr login --name containerdeploytrial
+        run: az acr login --name containerdeploytrial
 
       - name: Pull image from ACR
-        run: |
-          docker pull containerdeploytrial.azurecr.io/practical_docker_deploy-frontend:v1
+        run: docker pull containerdeploytrial.azurecr.io/practical_docker_deploy-frontend:v1
 
       - name: Deploy to App Service
         uses: azure/webapps-deploy@v2
